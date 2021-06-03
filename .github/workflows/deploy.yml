@@ -7,7 +7,7 @@ on:
       - master
 
 jobs:
-  build-and-deploy:
+  setup-build-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
@@ -21,9 +21,10 @@ jobs:
           gpg --quiet --batch --yes --decrypt --passphrase="$ENCRYPTION_KEY" --output ./.env.local ./.env.local.gpg
       - name: Setup NodeJS 💚
         uses: actions/setup-node@v1
-      - name: Install and Export 📦
+      - name: Install, Build and Export 📦
         run: |
           npm install
+          npm run build
           npm run export
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.5.9
